@@ -25,6 +25,7 @@ class Router {
 
         foreach ($this->routes as $route) {
             if ($route->path === $page) {
+                // $route->callable($parameter);
                 call_user_func($route->callable, $parameter);
                 return;
             }

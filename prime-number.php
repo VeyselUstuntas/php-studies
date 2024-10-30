@@ -1,15 +1,20 @@
 <?php
-
-class PrimeNumber
+require 'base-class.php';
+class PrimeNumber extends BaseClass
 {
-    public $limit;
+    private $limit;
 
-    function __construct($limit)
+    public function stringify()
+    {
+        return $this->primeNumbers();
+    }
+
+    public function setPrimeNumberLimit(int $limit)
     {
         $this->limit = $limit;
     }
 
-    public function primeNumbers()
+    private function primeNumbers()
     {
         $list = array();
         if ($this->limit > 1) {

@@ -1,21 +1,28 @@
 <?php
-class Fibonacci
+require 'base-class.php';
+class Fibonacci extends BaseClass
 {
-    public $step;
+    private $step;
 
-    function __construct($step)
+
+    public function stringify()
+    {
+        return $this->fibonacciNumbers();
+    }
+
+    public function setFibonacciStep(int $step)
     {
         $this->step = $step;
     }
 
-    public function fibonacciNumbers()
+
+    private function fibonacciNumbers()
     {
         $list = array(0, 1);
-        if($this->step == 1){
+        if ($this->step == 1) {
             return [0];
-        }
-        elseif($this->step == 2){
-            return [0,1];
+        } elseif ($this->step == 2) {
+            return [0, 1];
         }
         for ($i = 2; $i < $this->step; $i++) {
             $sum = $list[$i - 2] + $list[$i - 1];

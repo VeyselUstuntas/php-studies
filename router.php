@@ -1,48 +1,36 @@
 <?php
+class Router {
+    private $routes = [];
 
-class Router
-{
-    public function route($requestUri)
-    {
+    public function register(Route $route) {
+        $this->routes[] = $route;
+    }
+
+    public function route($requestUri) {
         $uri = parse_url($requestUri, PHP_URL_PATH);
         $uriSegments = explode('/', trim($uri, '/'));
 
         $page = isset($uriSegments[1]) ? $uriSegments[1] : null;
         $parameter = isset($uriSegments[2]) ? $uriSegments[2] : null;
 
-        
         if ($page === null) {
             header("Location: /php-calismasi/home");
             exit;
         }
 
         if ($parameter == null && ($page == "fibonacci" || $page == "prime-number")) {
-            echo "<div class = \"container mt-4 alert alert-danger\">Parametre Girilmelidir...</div>";
+            echo "Parametre Girilmelidir.";
             return;
         }
 
-        switch ($page) {
-            case 'fibonacci':
-                require 'fibonacci.php';
-                $fibonacci = new Fibonacci();
-                $fibonacci->setFibonacciStep($parameter);
-                $result = $fibonacci->stringify();
-                $title = "Fibonacci Numbers";
-                include "route.php";
-                break;
-
-            case 'prime-number':
-                require 'prime-number.php';
-                $primeNumber = new PrimeNumber();
-                $primeNumber->setPrimeNumberLimit($parameter);
-                $result = $primeNumber->stringify();
-                $title = "Prime Numbers";
-                require "route.php";
-                break;
-
-            case 'home':
-                require 'home.php';
-                break;
+        foreach ($this->routes as $route) {
+            if ($route->path === $page) {
+                call_user_func($route->callable, $parameter);
+                return;
+            }
         }
+        echo "Sayfa Bulunamadı.";
     }
 }
+
+

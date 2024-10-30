@@ -1,9 +1,3 @@
-<?php
-require 'Router.php';
-$router = new Router();
-$router->route($_SERVER['REQUEST_URI']);
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,6 +9,11 @@ $router->route($_SERVER['REQUEST_URI']);
 </head>
 
 <body>
+    <?php
+    require 'Router.php';
+    $router = new Router();
+    $router->route($_SERVER['REQUEST_URI']);
+    ?>
     <?php if ($_SERVER['REQUEST_URI'] == "/php-calismasi/" || $_SERVER['REQUEST_URI'] == "/php-calismasi/index"): ?>
         <div class="container mt-5">
             <div class="btn-group">

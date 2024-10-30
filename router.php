@@ -10,6 +10,12 @@ class Router
         $page = isset($uriSegments[1]) ? $uriSegments[1] : null;
         $parameter = isset($uriSegments[2]) ? $uriSegments[2] : null;
 
+        
+        if ($parameter == null && ($page == "fibonacci" || $page == "prime-number")) {
+            echo "<div class = \"container mt-4 alert alert-danger\">Parametre Girilmelidir...</div>";
+            return;
+        }
+
         switch ($page) {
             case 'fibonacci':
                 require 'fibonacci.php';

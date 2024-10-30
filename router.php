@@ -11,6 +11,11 @@ class Router
         $parameter = isset($uriSegments[2]) ? $uriSegments[2] : null;
 
         
+        if ($page === null) {
+            header("Location: /php-calismasi/home");
+            exit;
+        }
+
         if ($parameter == null && ($page == "fibonacci" || $page == "prime-number")) {
             echo "<div class = \"container mt-4 alert alert-danger\">Parametre Girilmelidir...</div>";
             return;
@@ -35,7 +40,8 @@ class Router
                 require "route.php";
                 break;
 
-            case 'index':
+            case 'home':
+                require 'home.php';
                 break;
         }
     }

@@ -1,3 +1,5 @@
+<?php include __DIR__ . '/_layout.php'; ?>
+
 <div class="container">
     <p class="h4"><?php echo $title ?></p>
     <p>
@@ -7,5 +9,5 @@
         }
         ?>
     </p>
-    <a class="btn btn-success" href="/php-calismasi">Home</a>
+    <a class="btn btn-success" href="/php-calismasi/home.php">Home</a>
 </div>

@@ -4,18 +4,18 @@ require 'route.php';
 require 'controller/fibonacci-controller.php';
 require 'controller/prime-controller.php';
 require 'controller/home-controller.php';
-require 'repository/fibonacci-repository.php';
-require 'repository/prime-repository.php';
+require_once 'fibonacci.php';
+require_once 'prime-number.php';
 
 $router = new Router();
 
-$fibonacci = new FibonacciController(FibonacciRepository::repositoryContext());
-Router::register($fibonacci->fibonacci());
+$fibonacci = new FibonacciController(new Fibonacci());
+Router::get("fibonacci", $fibonacci->fibonacci());
 
-$prime = new PrimeController(PrimeRepository::repositoryContext());
-Router::register($prime->prime());
+$prime = new PrimeController(new PrimeNumber());
+Router::get("prime-number", $prime->prime());
 
 $home = new HomeController();
-Router::register($home->home());
+Router::get("home", $home->home());
 
-$router->route($_SERVER['REQUEST_URI']);
+$router->route($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

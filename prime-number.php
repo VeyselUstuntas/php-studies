@@ -1,4 +1,5 @@
 <?php
+// require 'base-class.php';
 class PrimeNumber extends BaseClass
 {
     private $limit;

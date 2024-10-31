@@ -1,12 +1,22 @@
 <?php
-class Router {
+class Router
+{
     private static $routes = [];
 
-    public static function register(Route $route) {
-        self::$routes[] = $route;
+    public static function get($path, $callable)
+    {
+        $new_route = new Route($path, $callable, 'GET');
+        self::$routes[] = $new_route;
     }
 
-    public function route($requestUri) {
+    public static function post($path, $callable)
+    {
+        $new_route = new Route($path, $callable, 'POST');
+        self::$routes[] = $new_route;
+    }
+
+    public function route($requestUri, $requestMethod)
+    {
         $uri = parse_url($requestUri, PHP_URL_PATH);
         $uriSegments = explode('/', trim($uri, '/'));
 
@@ -24,7 +34,7 @@ class Router {
         }
 
         foreach (self::$routes as $route) {
-            if ($route->path == $page) {
+            if ($route->path == $page && $route->method == $requestMethod) {
                 call_user_func($route->callable, $parameter);
                 return;
             }
@@ -32,5 +42,3 @@ class Router {
         echo "Sayfa Bulunamadı.";
     }
 }
-
-

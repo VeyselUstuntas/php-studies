@@ -1,23 +1,22 @@
 <?php
 class PrimeController
 {
-    private $_context;
+    private $prime;
 
-    public function __construct($context)
+    public function __construct(PrimeNumber $prime)
     {
-        $this->_context = $context;
+        $this->prime = $prime;
     }
 
     public function prime()
     {
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        } else if (($_SERVER["REQUEST_METHOD"] === "GET")) {
-            return new Route('prime-number', function ($value) {
-                $this->_context->setPrimeNumberLimit($value);
-                $result = $this->_context->stringify();
-                $title = "Prime Numbers";
-                require "show.php";
-            });
-        }
+        return function ($value) {
+            $this->prime->setPrimeNumberLimit($value);
+            $result = $this->prime->stringify();
+            echo "Prime Numbers <br>";
+            foreach ($result as $number) {
+                echo "$number  ";
+            }
+        };
     }
 }

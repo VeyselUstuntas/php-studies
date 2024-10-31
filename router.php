@@ -5,13 +5,11 @@ class Router
 
     public static function get($path, $callable)
     {
-        $new_route = new Route($path, $callable, 'GET');
-        self::$routes[] = $new_route;
+        self::register(new Route($path, $callable, 'GET'));
     }
 
-    public static function post($path, $callable)
+    public static function register(Route $new_route)
     {
-        $new_route = new Route($path, $callable, 'POST');
         self::$routes[] = $new_route;
     }
 

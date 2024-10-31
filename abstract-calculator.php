@@ -1,5 +1,5 @@
 <?php
-abstract class AbstractBase
+abstract class AbstractCalculator
 {
     abstract protected function stringify();
 }

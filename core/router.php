@@ -18,9 +18,9 @@ class Router
     }
 
 
-    public function route(string $requestUri, string $requestMethod)
+    public function route(BaseRequest $request)
     {
-        $uri = parse_url($requestUri, PHP_URL_PATH);
+        $uri = $request->uri;
         $uriSegments = explode('/', trim($uri, '/'));
 
         $page = isset($uriSegments[1]) ? $uriSegments[1] : null;
@@ -37,7 +37,7 @@ class Router
         }
 
         foreach (self::$routes as $route) {
-            if ($route->path == $page && $route->method == $requestMethod) {
+            if ($route->path == $page && $route->method == $request->method) {
                 call_user_func($route->callable, $parameter);
                 return;
             }

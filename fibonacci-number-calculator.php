@@ -1,6 +1,6 @@
 <?php
-require 'abstract-base.php';
-class FibonacciNumber extends AbstractBase
+require 'abstract-calculator.php';
+class FibonacciNumberCalculator extends AbstractCalculator
 {
     private $step;
 

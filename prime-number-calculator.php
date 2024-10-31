@@ -1,5 +1,5 @@
 <?php
-class PrimeNumber extends AbstractBase
+class PrimeNumberCalculator extends AbstractCalculator
 {
     private $limit;
 

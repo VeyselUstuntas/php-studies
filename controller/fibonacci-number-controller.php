@@ -1,9 +1,9 @@
 <?php
 class FibonacciNumberController
 {
-    private FibonacciNumber $fibonacciObj;
+    private FibonacciNumberCalculator $fibonacciObj;
 
-    public function __construct(FibonacciNumber $fibonacciObj)
+    public function __construct(FibonacciNumberCalculator $fibonacciObj)
     {
         $this->fibonacciObj = $fibonacciObj;
     }

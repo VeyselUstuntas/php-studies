@@ -1,9 +1,9 @@
 <?php
 class PrimeNumberController
 {
-    private PrimeNumber $primeObj;
+    private PrimeNumberCalculator $primeObj;
 
-    public function __construct(PrimeNumber $primeObj)
+    public function __construct(PrimeNumberCalculator $primeObj)
     {
         $this->primeObj = $primeObj;
     }

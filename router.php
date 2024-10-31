@@ -1,9 +1,13 @@
 <?php
+
 class Router
 {
+    /** 
+     * @param Route[] $routes
+     */
     private static $routes = [];
 
-    public static function get($path, $callable)
+    public static function get(string $path, $callable)
     {
         self::register(new Route($path, $callable, 'GET'));
     }
@@ -13,7 +17,8 @@ class Router
         self::$routes[] = $new_route;
     }
 
-    public function route($requestUri, $requestMethod)
+
+    public function route(string $requestUri, string $requestMethod)
     {
         $uri = parse_url($requestUri, PHP_URL_PATH);
         $uriSegments = explode('/', trim($uri, '/'));

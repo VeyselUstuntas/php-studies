@@ -1,6 +1,5 @@
 <?php
-// require 'base-class.php';
-class PrimeNumber extends BaseClass
+class PrimeNumber extends AbstractBase
 {
     private $limit;
 

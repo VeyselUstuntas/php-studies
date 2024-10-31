@@ -2,10 +2,8 @@
 
 class HomeController
 {
-    public function home()
+    public function getHomePage()
     {
-        return function () {
-            require 'home.php';
-        };
+        require 'home.php';
     }
 }

@@ -1,11 +1,11 @@
 <?php
 class Route
 {
-    public $path;
+    public string $path;
     public $callable;
-    public $method;
+    public string $method;
 
-    public function __construct($path, $callable, $method)
+    public function __construct(string $path, callable $callable, string $method)
     {
         $this->path = $path;
         $this->callable = $callable;

@@ -1,21 +1,23 @@
 <?php
 class PrimeController
 {
-    public static function prime()
-    {
-        if($_SERVER["REQUEST_METHOD"]==="POST"){
+    private $_context;
 
-        }
-        else if(($_SERVER["REQUEST_METHOD"]==="GET")){
+    public function __construct($context)
+    {
+        $this->_context = $context;
+    }
+
+    public function prime()
+    {
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        } else if (($_SERVER["REQUEST_METHOD"] === "GET")) {
             return new Route('prime-number', function ($value) {
-                require 'prime-number.php';
-                $primeNumber = new PrimeNumber();
-                $primeNumber->setPrimeNumberLimit($value);
-                $result = $primeNumber->stringify();
+                $this->_context->setPrimeNumberLimit($value);
+                $result = $this->_context->stringify();
                 $title = "Prime Numbers";
                 require "show.php";
             });
         }
-
     }
 }

@@ -2,7 +2,7 @@
 
 class HomeController
 {
-    public static function homeRoute()
+    public function home()
     {
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 

@@ -1,9 +1,9 @@
 <?php
 class Router {
-    private $routes = [];
+    private static $routes = [];
 
-    public function register(Route $route) {
-        $this->routes[] = $route;
+    public static function register(Route $route) {
+        self::$routes[] = $route;
     }
 
     public function route($requestUri) {
@@ -23,9 +23,8 @@ class Router {
             return;
         }
 
-        foreach ($this->routes as $route) {
-            if ($route->path === $page) {
-                // $route->callable($parameter);
+        foreach (self::$routes as $route) {
+            if ($route->path == $page) {
                 call_user_func($route->callable, $parameter);
                 return;
             }

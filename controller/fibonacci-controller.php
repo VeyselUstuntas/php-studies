@@ -1,23 +1,23 @@
 <?php
-
 class FibonacciController
 {
+    private $_context;
 
-    public static function fibonacci()
+    public function __construct($context)
     {
-        if($_SERVER["REQUEST_METHOD"]==="POST"){
+        $this->_context = $context;
+    }
 
-        }
-        else if(($_SERVER["REQUEST_METHOD"]==="GET")){
-            return new Route('fibonacci',function($value){
-                require 'fibonacci.php';
-                $fibonacci = new Fibonacci();
-                $fibonacci->setFibonacciStep($value);
-                $result = $fibonacci->stringify();
+    public function fibonacci()
+    {
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        } else if (($_SERVER["REQUEST_METHOD"] === "GET")) {
+            return new Route('fibonacci', function ($value) {
+                $this->_context->setFibonacciStep($value);
+                $result = $this->_context->stringify();
                 $title = "Fibonacci Numbers";
-                require "show.php"; 
+                require "show.php";
             });
         }
-
     }
 }

@@ -13,11 +13,9 @@ $request = RequestParser::parse($_SERVER);
 
 $router = new Router();
 
-$fibonacciControllerObj = new FibonacciNumberController(new FibonacciNumberCalculator());
-Router::get("fibonacci", [$fibonacciControllerObj, 'getFibonacciNumbers']);
+Router::get("fibonacci", [new FibonacciNumberController(), 'getFibonacciNumbers']);
 
-$primeControllerObj = new PrimeNumberController(new PrimeNumberCalculator());
-Router::get("prime-number", [$primeControllerObj, 'getPrimeNumbers']);
+Router::get("prime-number", [new PrimeNumberController(), 'getPrimeNumbers']);
 
 $home = new HomeController();
 Router::get("home", [$home, 'getHomePage']); 

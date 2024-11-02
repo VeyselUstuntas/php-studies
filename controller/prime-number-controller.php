@@ -1,11 +1,11 @@
 <?php
 class PrimeNumberController
 {
-    private PrimeNumberCalculator $primeObj;
+    private readonly PrimeNumberCalculator $primeObj;
 
-    public function __construct(PrimeNumberCalculator $primeObj)
+    public function __construct()
     {
-        $this->primeObj = $primeObj;
+        $this->primeObj = new PrimeNumberCalculator();
     }
 
     public function getPrimeNumbers($limit)

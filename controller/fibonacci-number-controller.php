@@ -1,11 +1,11 @@
 <?php
 class FibonacciNumberController
 {
-    private FibonacciNumberCalculator $fibonacciObj;
+    private readonly FibonacciNumberCalculator $fibonacciObj;
 
-    public function __construct(FibonacciNumberCalculator $fibonacciObj)
+    public function __construct()
     {
-        $this->fibonacciObj = $fibonacciObj;
+        $this->fibonacciObj = new FibonacciNumberCalculator();
     }
 
     public function getFibonacciNumbers($limit)

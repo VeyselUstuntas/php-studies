@@ -1,4 +1,8 @@
 <?php
+include __DIR__ .  '/../services/user-service.php';
+include __DIR__ .  '/../services/product-service.php';
+include __DIR__ .  '/../model/order.php';
+
 class OrderController
 {
     private Database $database;
@@ -13,11 +17,11 @@ class OrderController
 
     public function getOrdersInfo()
     {
-        $userController= new UserController();
-        $this->userList = $userController->userList;
+        $userService = new UserService();
+        $this->userList = $userService->getUserList();
 
-        $productController = new ProductController();
-        $this->productList = $productController->productList;
+        $productService = new ProductService();
+        $this->productList = $productService->getProductList();
 
         $this->getAllOrdersDetails();
         require 'view/order-list.php'; 
@@ -26,17 +30,13 @@ class OrderController
     public function getAllOrdersDetails()
     {
         $connection = $this->database->connection;
-        $query = "SELECT o.id 'order_id', CONCAT(u.name, ' ', u.surname) as 'name_surname', p.name as 'product', p.price 'price' FROM orders as o JOIN user as u on o.user_id=u.id JOIN product as p on o.product_id=p.id;";
+        $query = "SELECT CONCAT(u.name,' ',UPPER(u.surname)) 'costumer_info',o.id 'order_id',UPPER(p.name) as 'product_name', p.price as 'product_price', oi.quantity as 'piece', (oi.quantity * p.price) as 'total_cost' FROM order_items as oi JOIN orders as o on o.id = oi.order_id JOIN user as u on u.id = o.user_id JOIN product as p on p.id = oi.product_id ORDER BY u.id ASC, o.id ASC;";
         $orders = mysqli_query($connection, $query);
 
         if ($orders->num_rows > 0) {
             while ($row = $orders->fetch_assoc()) {
-                $this->orderList[] = array( 
-                    "order_id" => $row["order_id"],
-                    "name_surname" => $row["name_surname"],
-                    "product" => $row["product"],
-                    "price" => $row["price"]
-                );
+                $this->orderList[] = new Order($row["costumer_info"],$row["order_id"],$row["product_name"],$row["product_price"],$row["piece"],$row["total_cost"]);
+                
             }
         } else {
             echo "Kullanıcılar Getirilemedi.";

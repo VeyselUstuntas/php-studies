@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . '/_layout.php';
+include __DIR__ . '/../view/_layout.php';
 ?>
 
 <div class="container mt-5">

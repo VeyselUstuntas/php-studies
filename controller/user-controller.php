@@ -1,35 +1,35 @@
 <?php
+include __DIR__ . '/../model/user.php';
 class UserController
 {
-
+    /**
+     * @var User[] $userList
+     */
+    private array $userList = [];
     private Database $database;
-    public array $userList = [];
 
     public function __construct()
     {
         $this->database = new Database();
-        $this->getAllUser();
+        // $this->getAllUser();
     }
 
     public function getAllUser()
     {
         $connection = $this->database->connection;
-        $query = "SELECT id, name, surname, email FROM user";
+        $query = "SELECT id, name, surname, email, password FROM user";
         $users = mysqli_query($connection, $query);
         if ($users->num_rows > 0) {
             while ($row = $users->fetch_assoc()) {
-                $this->userList[] = array( 
-                    "id" => $row["id"],
-                    "name" => $row["name"],
-                    "surname" => $row["surname"],
-                    "email" => $row["email"]
-                );
+
+                $this->userList[] = new User($row["id"], $row["name"], $row["surname"], $row["email"], $row["password"]);
             }
-
+            mysqli_close($connection);
+            return $this->userList;
         } else {
-            echo "Kullanıcılar Getirilemedi.";
+            mysqli_close($connection);
+            echo "Kullanıcılar Getirilimedi";
+            exit;
         }
-
-        mysqli_close($connection);
     }
 }

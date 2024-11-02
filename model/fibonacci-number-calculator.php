@@ -1,5 +1,5 @@
 <?php
-require 'abstract-calculator.php';
+require 'model/abstract-calculator.php';
 class FibonacciNumberCalculator extends AbstractCalculator
 {
     private $step;

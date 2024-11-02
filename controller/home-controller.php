@@ -4,6 +4,6 @@ class HomeController
 {
     public function getHomePage()
     {
-        require 'home.php';
+        require __DIR__ . '/../view/home.php';
     }
 }

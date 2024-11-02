@@ -9,12 +9,13 @@ class Router
 
     public static function get(string $path, $callable)
     {
-        self::register(new Route($path, $callable, 'GET'));
+        self::register($path,$callable,'GET');
     }
 
-    public static function register(Route $new_route)
+    public static function register(string $path, $callable, string $method)
     {
-        self::$routes[] = $new_route;
+        $newRoute = new Route($path,$callable, $method);
+        self::$routes[] = $newRoute;
     }
 
 

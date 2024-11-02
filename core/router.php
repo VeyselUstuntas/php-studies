@@ -20,13 +20,13 @@ class Router
 
     public function route(BaseRequest $request)
     {
-        $uri = $request->uri;
+        $uri = $request->path;
         $uriSegments = explode('/', trim($uri, '/'));
 
         $page = isset($uriSegments[1]) ? $uriSegments[1] : null;
         $parameter = isset($uriSegments[2]) ? $uriSegments[2] : null;
 
-        if ($page === null) {
+        if (count($uriSegments) == 1) {
             header("Location: /php-calismasi/home");
             exit;
         }
@@ -34,6 +34,11 @@ class Router
         if ($parameter == null && ($page == "fibonacci" || $page == "prime-number")) {
             echo "Parametre Girilmelidir.";
             return;
+        }
+
+        if($page == "add-data"){
+            header("Location: /php-calismasi/config/add-data.php");
+            exit;
         }
 
         foreach (self::$routes as $route) {

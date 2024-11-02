@@ -4,4 +4,4 @@ RewriteBase /php-calismasi/
 # Tüm istekleri index.php dosyasına yönlendir
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php [QSA,L]
+RewriteRule ^(.*)$ /php-calismasi/ [QSA,L]

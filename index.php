@@ -17,7 +17,6 @@ Router::get("fibonacci", [new FibonacciNumberController(), 'getFibonacciNumbers'
 
 Router::get("prime-number", [new PrimeNumberController(), 'getPrimeNumbers']);
 
-$home = new HomeController();
-Router::get("home", [$home, 'getHomePage']); 
+Router::get("home", [new HomeController(), 'getHomePage']); 
 
 $router->route($request);

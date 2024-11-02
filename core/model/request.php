@@ -1,5 +1,5 @@
 <?php
 class BaseRequest{
-    public string $uri;
+    public string $path;
     public string $method;
 }

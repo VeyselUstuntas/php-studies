@@ -10,14 +10,6 @@ class OrderService
      * @var Order[] $orderList
      */
     private array $orderList;
-    /**
-     * @var User[] $userList
-     */
-    private array $userList;
-    /**
-     *  @var Product[] $productList
-     */
-    private array $productList;
 
     private Database $database;
 

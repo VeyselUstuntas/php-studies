@@ -24,8 +24,6 @@ class OrderService
     public function __construct()
     {
         $this->orderList = [];
-        $this->productList = [];
-        $this->userList = [];
         $this->database = new Database();
     }
 

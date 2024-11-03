@@ -37,11 +37,6 @@ class Router
             return;
         }
 
-        if($page == "add-data"){
-            header("Location: /php-calismasi/config/add-data.php");
-            exit;
-        }
-
         foreach (self::$routes as $route) {
             if ($route->path == $page && $route->method == $request->method) {
                 call_user_func($route->callable, $parameter);

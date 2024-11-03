@@ -14,7 +14,7 @@ $colorList = array("table-primary", "table-secondary", "table-success", "table-d
             </h2>
             <div id="order-details" class="accordion-collapse collapse show">
                 <div class="accordion-body">
-                    <table class="table table-hover table-striped">
+                    <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th scope="col">Order Id</th>

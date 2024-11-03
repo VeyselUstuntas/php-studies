@@ -12,6 +12,6 @@ class OrderController
 
     public function getOrdersInfo()
     {
-        echo "<pre>" . $this->orderService->getAllOrdersPresentation() . "</pre>";
+        echo $this->orderService->getAllOrdersPresentation();
     }
 }

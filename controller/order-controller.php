@@ -9,10 +9,9 @@ class OrderController
         $this->orderService = new OrderService();
     }
 
+
     public function getOrdersInfo()
     {
-        $this->orderService->getAllOrdersDetails();
+        echo "<pre>" . $this->orderService->getAllOrdersPresentation() . "</pre>";
     }
-
-
 }

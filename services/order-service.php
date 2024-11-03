@@ -2,6 +2,7 @@
 include __DIR__ .  '/../services/user-service.php';
 include __DIR__ .  '/../services/product-service.php';
 include __DIR__ .  '/../model/order.php';
+include __DIR__ .  '/../utilities/json-utility.php';
 
 class OrderService
 {
@@ -28,15 +29,11 @@ class OrderService
         $this->database = new Database();
     }
 
-    public function getAllOrdersDetails()
+    /**
+     * @return Order[] $getAllgetAllOrdersDetails
+    */
+    public function getAllOrdersDetails():array
     {
-
-        $userService = new UserService();
-        $this->userList = $userService->getUserList();
-
-        $productService = new ProductService();
-        $this->productList = $productService->getProductList();
-
         try {
             $connection = $this->database->connection;
             $query = "SELECT CONCAT(u.name,' ',UPPER(u.surname)) 'costumer_info',o.id 'order_id',UPPER(p.name) as 'product_name', p.price as 'product_price', oi.quantity as 'piece', (oi.quantity * p.price) as 'total_cost' FROM order_items as oi LEFT OUTER JOIN orders as o on o.id = oi.order_id LEFT OUTER JOIN user as u on u.id = o.user_id LEFT OUTER JOIN product as p on p.id = oi.product_id ORDER BY u.id ASC, o.id ASC;";
@@ -49,9 +46,16 @@ class OrderService
             }
 
             mysqli_close($connection);
-            require 'view/order-list.php';
+            return $this->orderList;
+
         } catch (Exception $e) {
             echo $e->getMessage();
         }
+    }
+
+    public function getAllOrdersPresentation():string|false{
+        $orderObjectList = $this->getAllOrdersDetails();
+        $orderJsonEncodeList = JsonUtility::orderJsonEncodeList($orderObjectList,JSON_PRETTY_PRINT);
+        return $orderJsonEncodeList;
     }
 }

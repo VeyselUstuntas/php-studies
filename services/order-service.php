@@ -45,7 +45,7 @@ class OrderService
 
     public function getAllOrdersPresentation():string|false{
         $orderObjectList = $this->getAllOrdersDetails();
-        $orderJsonEncodeList = JsonUtility::orderJsonEncodeList($orderObjectList,JSON_PRETTY_PRINT);
+        $orderJsonEncodeList = JsonUtility::encode($orderObjectList,JSON_PRETTY_PRINT);
         return $orderJsonEncodeList;
     }
 }

@@ -12,6 +12,11 @@ class Router
         self::register($path,$callable,'GET');
     }
 
+    public static function post(string $path, $callable)
+    {
+        self::register($path,$callable,'POST');
+    }
+
     public static function register(string $path, $callable, string $method)
     {
         $newRoute = new Route($path,$callable, $method);
@@ -31,6 +36,7 @@ class Router
             header("Location: /php-calismasi/home");
             exit;
         }
+
 
         if ($parameter == null && ($page == "fibonacci" || $page == "prime-number")) {
             echo "Parametre Girilmelidir.";

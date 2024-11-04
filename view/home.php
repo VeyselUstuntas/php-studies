@@ -13,4 +13,8 @@ include __DIR__ . '/../view/_layout.php';
             Order Details
         </a>
     </p>
+
+    <p class="mt-4">
+        <a class="btn btn-warning" href="/php-calismasi/save-order/">Save Order</a>
+    </p>
 </div>

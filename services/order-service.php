@@ -21,8 +21,8 @@ class OrderService
 
     /**
      * @return Order[] $getAllgetAllOrdersDetails
-    */
-    public function getAllOrdersDetails():array
+     */
+    public function getAllOrdersDetails(): array
     {
         try {
             $connection = $this->database->connection;
@@ -36,16 +36,50 @@ class OrderService
             }
 
             mysqli_close($connection);
+            // return include __DIR__ . "/../view/order-list.php";
             return $this->orderList;
-
         } catch (Exception $e) {
             echo $e->getMessage();
         }
     }
 
-    public function getAllOrdersPresentation():string|false{
+    public function getAllOrdersPresentation(): string|false
+    {
         $orderObjectList = $this->getAllOrdersDetails();
         $orderJsonEncodeList = JsonUtility::encode($orderObjectList);
         return $orderJsonEncodeList;
+    }
+
+    public function saveOrder(int $product_id, int $quantity)
+    {
+        try {
+            $connection = $this->database->connection;
+
+            $query = "INSERT INTO order_items(order_id,product_id, quantity) VALUES(?,?,?)";
+
+            $stmt = mysqli_prepare($connection, $query);
+
+            $order_id = 1;
+            $product_id = $product_id;
+            $quantity = $quantity;
+            mysqli_stmt_bind_param($stmt, "iii", $order_id, $product_id, $quantity);
+            mysqli_stmt_execute($stmt);
+
+            mysqli_stmt_close($stmt);
+            mysqli_close($connection);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+
+    public function showOrderForm()
+    {
+        $productService = new ProductService();
+        /**
+         * @var Product[] $products
+         */
+        $products = $productService->getProductList();
+        return include __DIR__ . "/../view/save-order.php";
     }
 }

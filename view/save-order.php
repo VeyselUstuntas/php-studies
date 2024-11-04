@@ -6,21 +6,21 @@ require "_layout.php";
 $products;
 
 /**
- * @var OrderItem[] $orders
+ * @var User[] $users
  */
-$orders;
+$users;
 ?>
 
 <div class="container mt-2">
     <form method="POST" action="/php-calismasi/orders/">
 
         <div class="form-group mt-2">
-            <label for="product_id">Select Order</label>
-            <select class="form-control" id="order_id" name="order_id">
-                <option value="">Select a Order</option>
-                <?php foreach ($orders as $value): ?>
+            <label for="user_id">Select Order</label>
+            <select class="form-control" id="user_id" name="user_id">
+                <option value="">Select a Customer</option>
+                <?php foreach ($users as $value): ?>
                     <option value="<?php echo $value->id; ?>">
-                        <?php echo $value->id; ?>
+                        <?php echo $value->name." ".$value->surname; ?>
                     </option>
                 <?php endforeach; ?>
             </select>

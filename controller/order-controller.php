@@ -1,6 +1,9 @@
 <?php
 
 include __DIR__ .  '/../services/order-service.php';
+include __DIR__ .  '/../model/order-item-save.php';
+include __DIR__ .  '/../model/order-save.php';
+
 class OrderController
 {
     private OrderService $orderService;
@@ -19,11 +22,17 @@ class OrderController
 
     public function saveOrder()
     {
-        $order_id = $_POST["order_id"] ?? null;
+        $user_id = $_POST["user_id"] ?? null;
+
         $product_id = $_POST["product_id"] ?? null;
         $quantity = $_POST["quantity"] ?? null;
-        if ($product_id != null && $quantity != null && $order_id != null) {
-            $this->orderService->saveOrder($order_id,$product_id, $quantity);
+
+        $orderItemList = array(new OrderItemSaveModel($product_id,$quantity));
+
+        $orderSaveModel = new OrderSaveModel($user_id,$orderItemList);
+
+        if ($user_id != null && $product_id != null && $quantity != null) {
+            $this->orderService->saveOrder($orderSaveModel);
             require __DIR__ . "/../view/success.php";
             $this->showOrderForm();
         }

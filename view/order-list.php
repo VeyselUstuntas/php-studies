@@ -4,7 +4,6 @@ $order_id = $this->orderList[0]->order_id;
 $colorIndex = 0;
 $colorList = array("table-primary", "table-secondary", "table-success", "table-danger", "table-warning", "table-info", "table-light", "table-dark");
 
-echo $jsonEncodeList;
 ?>
 <div class="container mt-2">
     <table class="table table-hover">
@@ -20,7 +19,7 @@ echo $jsonEncodeList;
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($this->orderItemList as $order) :
+            <?php foreach ($this->orderList as $order) :
             ?>
                 <?php
                 if ($order->order_id != $order_id) {

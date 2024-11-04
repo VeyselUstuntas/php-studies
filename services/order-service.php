@@ -2,7 +2,6 @@
 include __DIR__ .  '/../services/user-service.php';
 include __DIR__ .  '/../services/product-service.php';
 include __DIR__ .  '/../model/order.php';
-include __DIR__ .  '/../model/order-item.php';
 include __DIR__ .  '/../utilities/json-utility.php';
 
 class OrderService
@@ -10,18 +9,18 @@ class OrderService
     /**
      * @var Order[] $orderList
      */
-    private array $orderItemList;
+    private array $orderList;
 
     /**
-     * @var OrderItem[] $orderList
+     * @var User[] $userList
      */
-    private array $orderList;
+    private array $userList;
 
     private Database $database;
 
     public function __construct()
     {
-        $this->orderItemList = [];
+        $this->orderList = [];
         $this->database = new Database();
     }
 
@@ -37,13 +36,13 @@ class OrderService
 
             if ($orders->num_rows > 0) {
                 while ($row = $orders->fetch_assoc()) {
-                    $this->orderItemList[] = new Order($row["costumer_info"], $row["order_id"], $row["product_name"], $row["product_price"], $row["piece"], $row["total_cost"]);
+                    $this->orderList[] = new Order($row["costumer_info"], $row["order_id"], $row["product_name"], $row["product_price"], $row["piece"], $row["total_cost"]);
                 }
             }
 
             mysqli_close($connection);
-            // return include __DIR__ . "/../view/order-list.php";
-            return $this->orderItemList;
+            include __DIR__ . "/../view/order-list.php";
+            return $this->orderList;
         } catch (Exception $e) {
             echo $e->getMessage();
         }
@@ -56,7 +55,42 @@ class OrderService
         return $orderJsonEncodeList;
     }
 
-    public function saveOrder(int $order_id,int $product_id, int $quantity)
+    /**
+     * @param OrderSaveModel $orderSaveModel
+    */
+    public function saveOrder($orderSaveModel)
+    {
+        $items = $orderSaveModel->items;
+        $user_Id = $orderSaveModel->user_id;
+    
+        try {
+            $connection = $this->database->connection;
+
+            $query = "INSERT INTO orders(user_id) VALUES(?)";
+
+            $stmt = mysqli_prepare($connection, $query);
+
+            mysqli_stmt_bind_param($stmt, "i", $user_Id);
+            mysqli_stmt_execute($stmt);
+            
+            $lastAddedOrderIdQuery  = "SELECT LAST_INSERT_ID() as last_order_id";
+            $result = mysqli_query($connection, $lastAddedOrderIdQuery);
+            $lastAddedOrderId = mysqli_fetch_assoc($result)['last_order_id']; 
+
+
+            /**
+             * @var OrderItemSaveModel $item
+            */
+            foreach ($items as $item) {
+                $this->saveOrderItem($lastAddedOrderId, $item->productId, $item->qty);
+            }
+            mysqli_stmt_close($stmt);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function saveOrderItem(int $order_id, int $product_id, int $quantity)
     {
         try {
             $connection = $this->database->connection;
@@ -78,24 +112,6 @@ class OrderService
         }
     }
 
-    public function getOrderList(): array
-    {
-        try {
-            $connection = $this->database->connection;
-            $query = "SELECT * FROM orders";
-            $products = mysqli_query($connection, $query);
-            if ($products->num_rows > 0) {
-                while ($row = $products->fetch_assoc()) {
-
-                    $this->orderList[] = new OrderItem($row["id"], $row["user_id"]);
-                }
-                mysqli_close($connection);
-                return $this->orderList;
-            }
-        } catch (Exception $e) {
-            echo $e->getMessage();
-        }
-    }
 
     public function showOrderForm()
     {
@@ -105,10 +121,12 @@ class OrderService
          * 
          */
         $products = $productService->getProductList();
+        
+        $userService = new UserService();
         /**
-         * @var OrderItem[] $orders
-        */
-        $orders = $this->getOrderList();
+         * @var User[] $users
+         */
+        $users = $userService->getUserList();
         return include __DIR__ . "/../view/save-order.php";
     }
 }

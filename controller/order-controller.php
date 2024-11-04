@@ -19,10 +19,11 @@ class OrderController
 
     public function saveOrder()
     {
+        $order_id = $_POST["order_id"] ?? null;
         $product_id = $_POST["product_id"] ?? null;
         $quantity = $_POST["quantity"] ?? null;
-        if ($product_id != null && $quantity != null) {
-            $this->orderService->saveOrder($product_id, $quantity);
+        if ($product_id != null && $quantity != null && $order_id != null) {
+            $this->orderService->saveOrder($order_id,$product_id, $quantity);
             require __DIR__ . "/../view/success.php";
             $this->showOrderForm();
         }

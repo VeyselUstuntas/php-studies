@@ -20,7 +20,7 @@ echo $jsonEncodeList;
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($this->orderList as $order) :
+            <?php foreach ($this->orderItemList as $order) :
             ?>
                 <?php
                 if ($order->order_id != $order_id) {

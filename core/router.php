@@ -33,7 +33,7 @@ class Router
         $parameter = isset($uriSegments[2]) ? $uriSegments[2] : null;
 
         if (count($uriSegments) == 1) {
-            header("Location: /php-calismasi/home");
+            header("Location: /php-calismasi/orders/");
             exit;
         }
 

@@ -6,11 +6,12 @@ class Database
     private $username = "root";
     private $password = "";
     private $database = "storedb";
-    public $connection;
+    public PDO $connection;
 
     public function __construct()
     {
-        $this->connection = mysqli_connect($this->hostname, $this->username, $this->password, $this->database);
+        $this->connection = new PDO("mysql:host=$this->hostname;dbname=$this->database",$this->username,$this->password);
     }
+
 
 }

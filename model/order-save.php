@@ -1,7 +1,7 @@
 <?php
 
 class OrderSaveModel {
-    public int $user_id;
+    public int $userId;
     /**
      * @var OrderItemSaveModel[]
      */
@@ -10,9 +10,9 @@ class OrderSaveModel {
     /**
      * @param OrderItemSaveModel[] $items
     */
-    public function __construct(int $user_id, array $items)
+    public function __construct(array $data)
     {
-        $this->user_id = $user_id;
-        $this->items = $items;
+        $this->userId = $data['userId'];
+        $this->items = $data['items'];
     }
 }

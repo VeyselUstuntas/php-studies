@@ -15,35 +15,30 @@ class OrderController
 
     public function getOrdersInfo()
     {
-        echo "<pre>". $this->orderService->getAllOrdersPresentation(). "</pre>";
-        // $this->orderService->getAllOrdersDetails();
-
+        die($this->orderService->getAllOrdersPresentation());
     }
 
     public function saveOrder()
     {
-        $user_id = $_POST["user_id"] ?? null;
+        $data =  json_decode(file_get_contents('php://input'), true);
+        $user_id = $data[0]["user_id"] ?? null;
+        $orderItemList = [];
 
-        $product_id = $_POST["product_id"] ?? null;
-        $quantity = $_POST["quantity"] ?? null;
+        foreach ($data as $item) {
+            $product_id = $item["product_id"] ?? null;
+            $quantity = $item["quantity"] ?? null;
 
-        $orderItemList = array(new OrderItemSaveModel($product_id,$quantity));
 
-        $orderSaveModel = new OrderSaveModel($user_id,$orderItemList);
+            if (!is_int($product_id) || !is_int($quantity)) {
+                die(json_encode(['error' => 'Invalid product_id or quantity.']));
+            }
 
-        if ($user_id != null && $product_id != null && $quantity != null) {
-            $this->orderService->saveOrder($orderSaveModel);
-            require __DIR__ . "/../view/success.php";
-            $this->showOrderForm();
+            $orderItemList[] = new OrderItemSaveModel((int)$product_id, (int)$quantity);
         }
-        else{
-            require __DIR__ . "/../view/error.php";
-            $this->showOrderForm();
-        }
-    }
 
-    public function showOrderForm()
-    {
-        $this->orderService->showOrderForm();
+        $orderSaveModel = new OrderSaveModel(['userId' => $user_id, 'items' => $orderItemList]);
+
+        $orderJson = JsonUtility::encode($this->orderService->saveOrder($orderSaveModel));
+        die($orderJson);
     }
 }

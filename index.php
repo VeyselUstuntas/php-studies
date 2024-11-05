@@ -25,8 +25,4 @@ Router::get("orders",[new OrderController(), 'getOrdersInfo']);
 
 Router::post("orders",[new OrderController(), 'saveOrder']);
 
-Router::get('save-order', [new OrderController(), 'showOrderForm']);
-
-Router::get("home", [new HomeController(), 'getHomePage']); 
-
 $router->route($request);

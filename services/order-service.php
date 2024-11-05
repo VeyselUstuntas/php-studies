@@ -77,8 +77,8 @@ class OrderService
             ]);
 
             foreach ($items as $item) {
-                $orderItemSaveModel = new OrderItemSaveModel(['orderId' => $orderId, 'productId' => $item->productId, 'qty' => $item->qty]);
-                $orderItem = $this->saveOrderItem($orderItemSaveModel);
+                $orderItemSaveModel = new OrderItemSaveModel(['productId' => $item->productId, 'qty' => $item->qty]);
+                $orderItem = $this->saveOrderItem($orderId,$orderItemSaveModel);
                 $order->addItem($orderItem);
             }
             return $order;
@@ -87,17 +87,17 @@ class OrderService
         }
     }
 
-    public function saveOrderItem(OrderItemSaveModel $model): OrderItem
+    public function saveOrderItem(int $orderId,OrderItemSaveModel $model): OrderItem
     {
         try {
             $connection = $this->database->connection;
 
             $stmt = $connection->prepare("INSERT INTO order_items(order_id,product_id, quantity) VALUES(:order_id, :product_id,:quantity)");
 
-            $stmt->execute(['order_id' => $model->orderId, 'product_id' => $model->productId, 'quantity' => $model->qty]);
+            $stmt->execute(['order_id' => $orderId, 'product_id' => $model->productId, 'quantity' => $model->qty]);
 
-            $orderItemResult = $connection->prepare("SELECT * from order_items where order_id = :last_order_id");
-            $orderItemResult->execute(['last_order_id' => $model->orderId]);
+            $orderItemResult = $connection->prepare("SELECT * from order_items where order_id = :order_id");
+            $orderItemResult->execute(['order_id' => $orderId]);
 
             while ($row = $orderItemResult->fetch()) {
                 $orderItem = new OrderItem([

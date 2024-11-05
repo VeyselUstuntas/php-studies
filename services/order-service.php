@@ -38,7 +38,7 @@ class OrderService
             $stmt->execute();
             $this->orderList = [];
 
-            while($row = $stmt->fetch()){
+            while ($row = $stmt->fetch()) {
                 $this->orderList[] = new OrderDetails($row);
             }
 
@@ -57,17 +57,17 @@ class OrderService
 
     /**
      * @param OrderSaveModel $orderSaveModel
-    */
-    public function saveOrder(OrderSaveModel $orderSaveModel):Order
+     */
+    public function saveOrder(OrderSaveModel $orderSaveModel): Order
     {
         $items = $orderSaveModel->items;
         $userId = $orderSaveModel->userId;
-    
+
         try {
             $connection = $this->database->connection;
 
             $stmt = $connection->prepare("INSERT INTO orders(user_id) VALUES(:userId)");
-            $stmt->execute(['userId'=>$userId]);
+            $stmt->execute(['userId' => $userId]);
 
             $orderId = $connection->lastInsertId("orderId");
 
@@ -77,12 +77,11 @@ class OrderService
             ]);
 
             foreach ($items as $item) {
-                $orderItemSaveModel = new OrderItemSaveModel(['orderId' => $orderId,'productId' => $item->productId, 'qty' => $item->qty]);
+                $orderItemSaveModel = new OrderItemSaveModel(['orderId' => $orderId, 'productId' => $item->productId, 'qty' => $item->qty]);
                 $orderItem = $this->saveOrderItem($orderItemSaveModel);
                 $order->addItem($orderItem);
             }
             return $order;
-
         } catch (Exception $e) {
             echo $e->getMessage();
         }
@@ -95,24 +94,49 @@ class OrderService
 
             $stmt = $connection->prepare("INSERT INTO order_items(order_id,product_id, quantity) VALUES(:order_id, :product_id,:quantity)");
 
-            $stmt->execute(['order_id'=>$model->orderId,'product_id'=>$model->productId,'quantity'=>$model->qty]);
+            $stmt->execute(['order_id' => $model->orderId, 'product_id' => $model->productId, 'quantity' => $model->qty]);
 
             $orderItemResult = $connection->prepare("SELECT * from order_items where order_id = :last_order_id");
-            $orderItemResult->execute(['last_order_id'=>$model->orderId]);
+            $orderItemResult->execute(['last_order_id' => $model->orderId]);
 
-            while($row=$orderItemResult->fetch()){
+            while ($row = $orderItemResult->fetch()) {
                 $orderItem = new OrderItem([
-                    'id'=>$row['id'],
-                    'order_id'=>$row['order_id'],
-                    'product_id'=>$row['product_id'],
-                    'quantity'=>$row['quantity']
+                    'id' => $row['id'],
+                    'order_id' => $row['order_id'],
+                    'product_id' => $row['product_id'],
+                    'quantity' => $row['quantity']
                 ]);
                 return $orderItem;
             }
-
-
         } catch (Exception $e) {
             echo $e->getMessage();
         }
     }
+
+
+    public function sqlInjectionTest(int $user_id)
+    {
+        $connection = $this->database->connection;
+    
+        try {
+            //prepared Statment
+            $stmt = $connection->prepare("SELECT * FROM user WHERE id = :id");
+            $stmt->bindParam('id', $user_id, PDO::PARAM_INT);
+            $stmt->execute();
+
+            //unPrepared Statment
+            $sql = "SELECT * FROM user WHERE id = $user_id";
+            $result = $connection->query($sql);
+    
+            $users = [];
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $users[] = $row;
+            }
+    
+            return $users; 
+        } catch (Exception $e) {
+            echo $e->getMessage(); 
+        }
+    }
+    
 }

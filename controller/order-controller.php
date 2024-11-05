@@ -29,7 +29,7 @@ class OrderController
             $productId = $item["product_id"];
             $qty = $item["quantity"];
 
-            $orderItemSaveModel = new OrderItemSaveModel(['productId'=> $productId, 'qty' => $qty]);
+            $orderItemSaveModel = new OrderItemSaveModel(['productId' => $productId, 'qty' => $qty]);
             $orderItemList[] = $orderItemSaveModel;
         }
 
@@ -37,5 +37,13 @@ class OrderController
 
         $orderJson = JsonUtility::encode([$this->orderService->saveOrder($orderSaveModel)]);
         die($orderJson);
+    }
+
+    public function testSqlInjection()
+    {
+        $user_id = $this->requestData[0]["user_id"] ?? null;
+
+        $sqlInjectionTest = JsonUtility::encode($this->orderService->sqlInjectionTest((int)$user_id));
+        die($sqlInjectionTest);
     }
 }

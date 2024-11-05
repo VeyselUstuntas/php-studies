@@ -23,6 +23,8 @@ Router::get("prime-number", [new PrimeNumberController(), 'getPrimeNumbers']);
 
 Router::get("orders",[new OrderController($request), 'getOrdersInfo']);
 
-Router::post("orders",[new OrderController($request), 'saveOrder']);
+// Router::post("orders",[new OrderController($request), 'saveOrder']);
+
+Router::post("orders",[new OrderController($request), 'testSqlInjection']);
 
 $router->route($request);

@@ -43,7 +43,7 @@ class OrderController
     {
         $user_id = $this->requestData[0]["user_id"] ?? null;
 
-        $sqlInjectionTest = JsonUtility::encode($this->orderService->sqlInjectionTest((int)$user_id));
+        $sqlInjectionTest = JsonUtility::encode($this->orderService->sqlInjectionTest($user_id));
         die($sqlInjectionTest);
     }
 }

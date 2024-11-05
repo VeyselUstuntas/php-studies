@@ -114,26 +114,23 @@ class OrderService
     }
 
 
-    public function sqlInjectionTest(int $user_id)
+    public function sqlInjectionTest(int $order_id)
     {
         $connection = $this->database->connection;
     
         try {
-            //prepared Statment
-            $stmt = $connection->prepare("SELECT * FROM user WHERE id = :id");
-            $stmt->bindParam('id', $user_id, PDO::PARAM_INT);
-            $stmt->execute();
+            $query = $connection->prepare("SELECT * FROM orders WHERE id = :id");
 
-            //unPrepared Statment
-            $sql = "SELECT * FROM user WHERE id = $user_id";
-            $result = $connection->query($sql);
+            $query->execute([
+                ':id' => $order_id
+            ]);
     
-            $users = [];
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $users[] = $row;
+            $orders = [];
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                $orders[] = $row;
             }
     
-            return $users; 
+            return $orders; 
         } catch (Exception $e) {
             echo $e->getMessage(); 
         }

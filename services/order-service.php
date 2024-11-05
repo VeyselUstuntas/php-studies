@@ -71,19 +71,11 @@ class OrderService
 
             $lastInsertId = $connection->lastInsertId("last_order_id");
 
-
-            $selectOrderQuery = $connection->prepare("SELECT * from orders where id = :id");
-           
-            $orderId = null;
-            $orderUserId = null;
-            while($row = $selectOrderQuery->fetch()){
-                $orderId = $row['id'];
-                $orderUserId = $row['user_id'];
-            }
+            $orderId = $lastInsertId;
 
             $order = new Order([
                 'id' => $orderId,
-                'userId' => $orderUserId
+                'userId' => $userId
             ]);
 
             /**
@@ -109,9 +101,8 @@ class OrderService
 
             $stmt->execute(['order_id'=>$lastOrderId,'product_id'=>$model->productId,'quantity'=>$model->qty]);
 
-            $orderItemResult = $connection->prepare("SELECT * from order_items where id = :id");
-            $lastOrderItemId = $connection->lastInsertId();
-            $orderItemResult->execute(['id'=>$lastOrderItemId]);
+            $orderItemResult = $connection->prepare("SELECT * from order_items where order_id = :last_order_id");
+            $orderItemResult->execute(['last_order_id'=>$lastOrderId]);
 
             while($row=$orderItemResult->fetch()){
                 $orderItem = new OrderItem([

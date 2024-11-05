@@ -30,7 +30,7 @@ class OrderController
 
 
             if (!is_int($product_id) || !is_int($quantity)) {
-                die(json_encode(['error' => 'Invalid product_id or quantity.']));
+                die(JsonUtility::encode(['error' => 'Invalid product_id or quantity.']));
             }
 
             $orderItemList[] = new OrderItemSaveModel((int)$product_id, (int)$quantity);
@@ -38,7 +38,7 @@ class OrderController
 
         $orderSaveModel = new OrderSaveModel(['userId' => $user_id, 'items' => $orderItemList]);
 
-        $orderJson = JsonUtility::encode($this->orderService->saveOrder($orderSaveModel));
+        $orderJson = JsonUtility::encode([$this->orderService->saveOrder($orderSaveModel)]);
         die($orderJson);
     }
 }

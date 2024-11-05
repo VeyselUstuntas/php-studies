@@ -2,10 +2,10 @@
 
 class Database
 {
-    private $hostname = "localhost";
-    private $username = "root";
-    private $password = "";
-    private $database = "storedb";
+    private string $hostname = "localhost";
+    private string $username = "root";
+    private string $password = "";
+    private string $database = "storedb";
     public PDO $connection;
 
     public function __construct()

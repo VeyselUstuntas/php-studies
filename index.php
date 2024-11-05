@@ -21,8 +21,8 @@ Router::get("fibonacci", [new FibonacciNumberController(), 'getFibonacciNumbers'
 
 Router::get("prime-number", [new PrimeNumberController(), 'getPrimeNumbers']);
 
-Router::get("orders",[new OrderController(), 'getOrdersInfo']);
+Router::get("orders",[new OrderController($request), 'getOrdersInfo']);
 
-Router::post("orders",[new OrderController(), 'saveOrder']);
+Router::post("orders",[new OrderController($request), 'saveOrder']);
 
 $router->route($request);

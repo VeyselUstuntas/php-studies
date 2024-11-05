@@ -7,9 +7,11 @@ include __DIR__ .  '/../model/order-save.php';
 class OrderController
 {
     private OrderService $orderService;
-    public function __construct()
+    private $requestData;
+    public function __construct(BaseRequest $request)
     {
         $this->orderService = new OrderService();
+        $this->requestData = $request->data;
     }
 
 
@@ -20,20 +22,15 @@ class OrderController
 
     public function saveOrder()
     {
-        $data =  json_decode(file_get_contents('php://input'), true);
-        $user_id = $data[0]["user_id"] ?? null;
+        $user_id = $this->requestData[0]["user_id"] ?? null;
         $orderItemList = [];
 
-        foreach ($data as $item) {
-            $product_id = $item["product_id"] ?? null;
-            $quantity = $item["quantity"] ?? null;
+        foreach ($this->requestData as $item) {
+            $productId = $item["product_id"];
+            $qty = $item["quantity"];
 
-
-            if (!is_int($product_id) || !is_int($quantity)) {
-                die(JsonUtility::encode(['error' => 'Invalid product_id or quantity.']));
-            }
-
-            $orderItemList[] = new OrderItemSaveModel((int)$product_id, (int)$quantity);
+            $orderItemSaveModel = new OrderItemSaveModel(['productId'=> $productId, 'qty' => $qty]);
+            $orderItemList[] = $orderItemSaveModel;
         }
 
         $orderSaveModel = new OrderSaveModel(['userId' => $user_id, 'items' => $orderItemList]);

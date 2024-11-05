@@ -69,20 +69,16 @@ class OrderService
             $stmt = $connection->prepare("INSERT INTO orders(user_id) VALUES(:userId)");
             $stmt->execute(['userId'=>$userId]);
 
-            $lastInsertId = $connection->lastInsertId("last_order_id");
-
-            $orderId = $lastInsertId;
+            $orderId = $connection->lastInsertId("orderId");
 
             $order = new Order([
                 'id' => $orderId,
                 'userId' => $userId
             ]);
 
-            /**
-             * @var OrderItemSaveModel $item
-            */
             foreach ($items as $item) {
-                $orderItem = $this->saveOrderItem($lastInsertId,new OrderItemSaveModel($item->productId,$item->qty));
+                $orderItemSaveModel = new OrderItemSaveModel(['orderId' => $orderId,'productId' => $item->productId, 'qty' => $item->qty]);
+                $orderItem = $this->saveOrderItem($orderItemSaveModel);
                 $order->addItem($orderItem);
             }
             return $order;
@@ -92,17 +88,17 @@ class OrderService
         }
     }
 
-    public function saveOrderItem(int $lastOrderId, OrderItemSaveModel $model): OrderItem
+    public function saveOrderItem(OrderItemSaveModel $model): OrderItem
     {
         try {
             $connection = $this->database->connection;
 
             $stmt = $connection->prepare("INSERT INTO order_items(order_id,product_id, quantity) VALUES(:order_id, :product_id,:quantity)");
 
-            $stmt->execute(['order_id'=>$lastOrderId,'product_id'=>$model->productId,'quantity'=>$model->qty]);
+            $stmt->execute(['order_id'=>$model->orderId,'product_id'=>$model->productId,'quantity'=>$model->qty]);
 
             $orderItemResult = $connection->prepare("SELECT * from order_items where order_id = :last_order_id");
-            $orderItemResult->execute(['last_order_id'=>$lastOrderId]);
+            $orderItemResult->execute(['last_order_id'=>$model->orderId]);
 
             while($row=$orderItemResult->fetch()){
                 $orderItem = new OrderItem([

@@ -7,4 +7,15 @@ class UserController
     {
         $this->userService = new UserService();
     }
+
+    public function getUser(int $userId)
+    {
+        $user = $this->userService->getUser($userId);
+        die(JsonUtility::encode([$user]));
+    }
+
+    public function getAllUser() {
+        $userList = $this->userService->getAllUser();
+        die(JsonUtility::encode($userList));
+    }
 }

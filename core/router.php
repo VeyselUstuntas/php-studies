@@ -6,6 +6,13 @@ class Router
      * @param Route[] $routes
      */
     private static $routes = [];
+    
+    private DI $container;
+
+    public function __construct(DI $container)
+    {
+        $this->container = $container;
+    }
 
     public static function get(string $path, $callable)
     {
@@ -43,9 +50,14 @@ class Router
             return;
         }
 
+        /**
+         * @var Route $route
+        */
         foreach (self::$routes as $route) {
             if ($route->path == $page && $route->method == $request->method) {
-                call_user_func($route->callable, $parameter);
+                $controller = $this->container->get($route->callable[0]);
+                $function = $route->callable[1];
+                call_user_func([$controller, $function], $parameter);
                 return;
             }
         }

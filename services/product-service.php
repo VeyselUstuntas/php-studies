@@ -1,34 +1,31 @@
 <?php
 class ProductService
 {
-    /**
-     * @var Product[] $productList
-     * 
-     */
 
-    private array $productList;
+
     private Database $database;
 
     public function __construct()
     {
         $this->database = new Database();
-        $this->productList = [];
     }
 
-    public function getProductList(): array
+    public function getAllProducts(): array
     {
+        /**
+         * @var Product[] $productList
+         * 
+         */
+        $productList = [];
+
         try {
             $connection = $this->database->connection;
-            $query = "SELECT * FROM product";
-            $products = mysqli_query($connection, $query);
-            if ($products->num_rows > 0) {
-                while ($row = $products->fetch_assoc()) {
-
-                    $this->productList[] = new Product($row["id"], $row["name"], $row["price"]);
-                }
-                mysqli_close($connection);
-                return $this->productList;
+            $stmt = $connection->prepare("SELECT * FROM product");
+            $stmt->execute();
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $productList[] = new Product($row["id"], $row["name"], $row["price"]);
             }
+            return $productList;
         } catch (Exception $e) {
             echo $e->getMessage();
         }

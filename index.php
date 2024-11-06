@@ -12,19 +12,27 @@ require 'config/database.php';
 require 'controller/user-controller.php';
 require 'controller/product-controller.php';
 require 'controller/order-controller.php';
+require 'core/di.php';
+
+$container = new DI();
+$router = new Router($container);
+
+Router::get("fibonacci", [FibonacciNumberController::class, 'getFibonacciNumbers']);
+
+Router::get("prime-number", [PrimeNumberController::class, 'getPrimeNumbers']);
+
+Router::get("orders", [OrderController::class, 'getOrdersInfo']);
+
+Router::post("orders", [OrderController::class, 'saveOrder']);
+
+Router::post("injection", [OrderController::class, 'testSqlInjection']);
+
+Router::get("users", [UserController::class, 'getAllUser']);
+
+Router::get("user", [UserController::class, 'getUser']);
+
+Router::get("products", [ProductController::class, 'getAllProducts']);
 
 $request = RequestParser::parse($_SERVER);
-
-$router = new Router();
-
-Router::get("fibonacci", [new FibonacciNumberController(), 'getFibonacciNumbers']);
-
-Router::get("prime-number", [new PrimeNumberController(), 'getPrimeNumbers']);
-
-Router::get("orders", [new OrderController($request), 'getOrdersInfo']);
-
-Router::post("orders", [new OrderController($request), 'saveOrder']);
-
-Router::post("injection", [new OrderController($request), 'testSqlInjection']);
 
 $router->route($request);

@@ -7,4 +7,9 @@ class ProductController
     {
         $this->productService = new ProductService();
     }
+
+    public function getAllProducts(){
+        $productList = $this->productService->getAllProducts();
+        die(JsonUtility::encode($productList));
+    }
 }

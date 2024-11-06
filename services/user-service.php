@@ -1,33 +1,51 @@
 <?php
 class UserService
 {
-    /**
-     * @var User[] $userList
-     * 
-     */
-    private array $userList;
     private Database $database;
 
     public function __construct()
     {
-        $this->userList = [];
         $this->database = new Database();
     }
 
-    public function getUserList(): array
+    public function getUser(int $userId): ?User
     {
         try {
             $connection = $this->database->connection;
-            $query = "SELECT id, name, surname, email, password FROM user";
-            $users = mysqli_query($connection, $query);
-            if ($users->num_rows > 0) {
-                while ($row = $users->fetch_assoc()) {
 
-                    $this->userList[] = new User($row["id"], $row["name"], $row["surname"], $row["email"], $row["password"]);
-                }
-                mysqli_close($connection);
-                return $this->userList;
+            $stmt = $connection->prepare("SELECT * FROM user WHERE id = :id");
+            $stmt->bindParam(":id", $userId, PDO::PARAM_INT);
+            $stmt->execute();
+
+            /**
+             * @var User|null $user
+             */
+            $user = null;
+
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $user = new User($row['id'], $row['name'],$row['surname'],$row['email'],$row['password']);
             }
+            return $user;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function getAllUser(): array
+    {
+        /**
+         * @var User[] $userList
+         * 
+         */
+        $userList = [];
+        try {
+            $connection = $this->database->connection;
+            $stmt = $connection->prepare("SELECT id, name, surname, email, password FROM user");
+            $stmt->execute();
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $userList[] = new User($row["id"], $row["name"], $row["surname"], $row["email"], $row["password"]);
+            }
+            return $userList;
         } catch (Exception $e) {
             echo $e->getMessage();
         }

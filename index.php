@@ -33,6 +33,6 @@ Router::get("user", [UserController::class, 'getUser']);
 
 Router::get("products", [ProductController::class, 'getAllProducts']);
 
-$request = RequestParser::parse($_SERVER);
+$request = RequestParser::parse();
 $router->route($request);
 

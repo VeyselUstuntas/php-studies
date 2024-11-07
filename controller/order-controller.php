@@ -6,11 +6,7 @@ include __DIR__ .  '/../model/order-save.php';
 
 class OrderController
 {
-    private $requestData;
-    public function __construct(protected OrderService $orderService)
-    {
-        $this->requestData = json_decode(file_get_contents('php://input'), true);
-    }
+    public function __construct(protected OrderService $orderService) {}
 
 
     public function getOrdersInfo()
@@ -20,10 +16,12 @@ class OrderController
 
     public function saveOrder()
     {
-        $user_id = $this->requestData[0]["user_id"] ?? null;
+        $baseRequest = RequestParser::parse();
+
+        $user_id = $baseRequest->data[0]["user_id"] ?? null;
         $orderItemList = [];
 
-        foreach ($this->requestData as $item) {
+        foreach ($baseRequest->data as $item) {
             $productId = $item["product_id"];
             $qty = $item["quantity"];
 

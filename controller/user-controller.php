@@ -2,11 +2,7 @@
 include __DIR__ . '/../model/user.php';
 class UserController
 {
-    private UserService $userService;
-    public function __construct()
-    {
-        $this->userService = new UserService();
-    }
+    public function __construct(protected UserService $userService) {}
 
     public function getUser(int $userId)
     {
@@ -14,7 +10,8 @@ class UserController
         die(JsonUtility::encode([$user]));
     }
 
-    public function getAllUser() {
+    public function getAllUser()
+    {
         $userList = $this->userService->getAllUser();
         die(JsonUtility::encode($userList));
     }

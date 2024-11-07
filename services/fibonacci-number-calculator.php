@@ -4,7 +4,6 @@ class FibonacciNumberCalculator extends AbstractCalculator
 {
     private $step;
 
-
     public function stringify()
     {
         return $this->fibonacciNumbers();
@@ -14,7 +13,6 @@ class FibonacciNumberCalculator extends AbstractCalculator
     {
         $this->step = $step;
     }
-
 
     private function fibonacciNumbers()
     {

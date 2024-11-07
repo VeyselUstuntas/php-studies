@@ -1,17 +1,13 @@
 <?php
 class PrimeNumberController
 {
-    private readonly PrimeNumberCalculator $primeObj;
 
-    public function __construct()
-    {
-        $this->primeObj = new PrimeNumberCalculator();
-    }
+    public function __construct(protected PrimeNumberCalculator $primeNumberService) {}
 
     public function getPrimeNumbers($limit)
     {
-        $this->primeObj->setPrimeNumberLimit($limit);
-        $primeNumbers = $this->primeObj->stringify();
+        $this->primeNumberService->setPrimeNumberLimit($limit);
+        $primeNumbers = $this->primeNumberService->stringify();
         echo "Prime Numbers <br>";
         foreach ($primeNumbers as $primeNumber) {
             echo "$primeNumber  ";

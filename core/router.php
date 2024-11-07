@@ -6,27 +6,30 @@ class Router
      * @param Route[] $routes
      */
     private static $routes = [];
-    
-    private DI $container;
+    protected static DIManager $dIManager;
 
-    public function __construct(DI $container)
+    public function __construct($dIManager)
     {
-        $this->container = $container;
+        self::$dIManager = $dIManager;
     }
 
     public static function get(string $path, $callable)
     {
-        self::register($path,$callable,'GET');
+        self::register($path, $callable, 'GET');
     }
 
     public static function post(string $path, $callable)
     {
-        self::register($path,$callable,'POST');
+        self::register($path, $callable, 'POST');
     }
 
+    // $callable -> ['sınıf', 'metod']
     public static function register(string $path, $callable, string $method)
     {
-        $newRoute = new Route($path,$callable, $method);
+        //bağımlılıkları burda çözümleyecği
+        $controller = self::$dIManager->resolve($callable[0]);
+        $action = $callable[1];
+        $newRoute = new Route($path, [$controller,$action], $method);
         self::$routes[] = $newRoute;
     }
 
@@ -39,12 +42,6 @@ class Router
         $page = isset($uriSegments[1]) ? $uriSegments[1] : null;
         $parameter = isset($uriSegments[2]) ? $uriSegments[2] : null;
 
-        if (count($uriSegments) == 1) {
-            header("Location: /php-calismasi/orders/");
-            exit;
-        }
-
-
         if ($parameter == null && ($page == "fibonacci" || $page == "prime-number")) {
             echo "Parametre Girilmelidir.";
             return;
@@ -52,12 +49,10 @@ class Router
 
         /**
          * @var Route $route
-        */
+         */
         foreach (self::$routes as $route) {
             if ($route->path == $page && $route->method == $request->method) {
-                $controller = $this->container->get($route->callable[0]);
-                $function = $route->callable[1];
-                call_user_func([$controller, $function], $parameter);
+                call_user_func($route->callable, $parameter);
                 return;
             }
         }

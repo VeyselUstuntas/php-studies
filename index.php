@@ -1,5 +1,4 @@
 <?php
-
 require 'core/router.php';
 require 'core/model/route.php';
 require 'controller/fibonacci-number-controller.php';
@@ -12,10 +11,11 @@ require 'config/database.php';
 require 'controller/user-controller.php';
 require 'controller/product-controller.php';
 require 'controller/order-controller.php';
-require 'core/di.php';
+require 'core/di-manager.php';
 
-$container = new DI();
-$router = new Router($container);
+$diManager = new DIManager();
+
+$router = new Router($diManager);
 
 Router::get("fibonacci", [FibonacciNumberController::class, 'getFibonacciNumbers']);
 
@@ -34,5 +34,5 @@ Router::get("user", [UserController::class, 'getUser']);
 Router::get("products", [ProductController::class, 'getAllProducts']);
 
 $request = RequestParser::parse($_SERVER);
-
 $router->route($request);
+

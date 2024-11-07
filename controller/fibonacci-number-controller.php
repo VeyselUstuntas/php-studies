@@ -1,17 +1,13 @@
 <?php
 class FibonacciNumberController
 {
-    private readonly FibonacciNumberCalculator $fibonacciObj;
 
-    public function __construct()
-    {
-        $this->fibonacciObj = new FibonacciNumberCalculator();
-    }
+    public function __construct(protected FibonacciNumberCalculator $fibonacciNumberService) {}
 
     public function getFibonacciNumbers($limit)
     {
-        $this->fibonacciObj->setFibonacciStep($limit);
-        $fibonacciNumbers = $this->fibonacciObj->stringify();
+        $this->fibonacciNumberService->setFibonacciStep($limit);
+        $fibonacciNumbers = $this->fibonacciNumberService->stringify();
         echo "Fibonacci Numbers <br>";
         foreach ($fibonacciNumbers as $fibonacciNumber) {
             echo "$fibonacciNumber  ";

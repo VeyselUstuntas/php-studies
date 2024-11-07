@@ -6,12 +6,10 @@ include __DIR__ .  '/../model/order-save.php';
 
 class OrderController
 {
-    private OrderService $orderService;
     private $requestData;
-    public function __construct(BaseRequest $request)
+    public function __construct(protected OrderService $orderService)
     {
-        $this->orderService = new OrderService();
-        $this->requestData = $request->data;
+        $this->requestData = json_decode(file_get_contents('php://input'), true);
     }
 
 

@@ -1,14 +1,11 @@
 <?php
-class SecondMiddleware implements IMiddleware
+class SecondMiddleware
 {
-    public function __construct(protected OrderController $orderController) {}
-    public function __invoke(callable $next)
+    public function __invoke(array $orderList)
     {
         var_dump("second middleware");
-        
-        $orderList = $this->orderController->getOrdersInfo();
+        $orderList = $orderList;
         $jsonResult = JsonUtility::encode($orderList);
-        
-        return $next($jsonResult);
+        var_dump($jsonResult);
     }
 }

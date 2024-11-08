@@ -13,23 +13,34 @@ class Router
         self::$dIManager = $dIManager;
     }
 
-    public static function get(string $path, $callable)
+    public static function get(string $path, $callable, ?array $middlewares = null)
     {
-        self::register($path, $callable, 'GET');
+        self::register($path, $callable, 'GET', $middlewares);
     }
 
-    public static function post(string $path, $callable)
+    public static function post(string $path, $callable, ?array $middlewares = null)
     {
-        self::register($path, $callable, 'POST');
+        self::register($path, $callable, 'POST', $middlewares);
     }
 
     // $callable -> ['sınıf', 'metod']
-    public static function register(string $path, $callable, string $method)
+    public static function register(string $path, $callable, string $method, ?array $middlewares = null)
     {
         //bağımlılıkları burda çözümleyecği
         $controller = self::$dIManager->resolve($callable[0]);
         $action = $callable[1];
-        $newRoute = new Route($path, [$controller,$action], $method);
+        $newRoute = new Route($path, [$controller, $action], $method);
+
+        if (isset($middlewares["before"])) {
+            foreach ($middlewares["before"] as $beforeMiddleware) {
+                $newRoute->beforeMiddlewares[] = new $beforeMiddleware();
+            }
+        }
+
+        if (isset($middlewares["after"])) {
+            foreach ($middlewares["after"] as $afterMiddleware) {
+                $newRoute->afterMiddlewares[] = new $afterMiddleware();
+            }        }
         self::$routes[] = $newRoute;
     }
 
@@ -52,7 +63,15 @@ class Router
          */
         foreach (self::$routes as $route) {
             if ($route->path == $page && $route->method == $request->method) {
-                call_user_func($route->callable, $parameter);
+                foreach ($route->beforeMiddlewares as $middleware) {
+                    $middleware($request);
+                }
+
+                $list = call_user_func($route->callable, $parameter);
+
+                foreach ($route->afterMiddlewares as $middleware) {
+                    $middleware($list);
+                }
                 return;
             }
         }

@@ -15,9 +15,6 @@ require 'core/di-manager.php';
 
 require 'middleware/first-middleware.php';
 require 'middleware/second-middleware.php';
-require 'middleware/third-middleware.php';
-require 'middleware/core/middleware-stack.php';
-require 'app.php';
 require 'config/query-builder.php';
 
 $diManager = new DIManager();
@@ -25,18 +22,17 @@ $diManager = new DIManager();
 $router = new Router($diManager);
 $request = RequestParser::parse();
 
-$app = new App(new MiddlewareStack($request));
-$app->add(new FirstMiddleware());
-$app->add(new SecondMiddleware($diManager->resolve(OrderController::class)));
-$app->add(new ThirdMiddleware());
-
-$app->run();
 
 Router::get("fibonacci", [FibonacciNumberController::class, 'getFibonacciNumbers']);
 
 Router::get("prime-number", [PrimeNumberController::class, 'getPrimeNumbers']);
 
-Router::get("orders", [OrderController::class, 'getOrdersPresentation']);
+Router::get("order-presentation", [OrderController::class, 'getOrdersPresentation']);
+
+Router::get("orders", [OrderController::class, 'getOrdersInfo'], [
+    "before" => [FirstMiddleware::class],
+    "after" => [SecondMiddleware::class]
+]);
 
 Router::post("orders", [OrderController::class, 'saveOrder']);
 

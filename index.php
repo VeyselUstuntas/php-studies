@@ -13,9 +13,22 @@ require 'controller/product-controller.php';
 require 'controller/order-controller.php';
 require 'core/di-manager.php';
 
-$diManager = new DIManager();
+require 'middleware/first-middleware.php';
+require 'middleware/second-middleware.php';
+require 'middleware/third-middleware.php';
+require 'middleware/core/middleware-stack.php';
+require 'app.php';
 
+$diManager = new DIManager();
 $router = new Router($diManager);
+$request = RequestParser::parse();
+
+$app = new App(new MiddlewareStack($request));
+$app->add(new FirstMiddleware());
+$app->add(new SecondMiddleware($diManager->resolve(OrderController::class)));
+$app->add(new ThirdMiddleware());
+
+$app->run();
 
 Router::get("fibonacci", [FibonacciNumberController::class, 'getFibonacciNumbers']);
 
@@ -33,6 +46,4 @@ Router::get("user", [UserController::class, 'getUser']);
 
 Router::get("products", [ProductController::class, 'getAllProducts']);
 
-$request = RequestParser::parse();
 $router->route($request);
-

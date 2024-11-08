@@ -8,6 +8,7 @@ class RequestParser {
         $request->method = $_SERVER['REQUEST_METHOD'];
         $request->path = parse_url($url, PHP_URL_PATH);
         $request->data = json_decode(file_get_contents('php://input'), true);
+        $request->requestBody = $_GET;
         return $request;
     }
 }

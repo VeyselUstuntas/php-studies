@@ -9,7 +9,12 @@ class OrderController
     public function __construct(protected OrderService $orderService) {}
 
 
-    public function getOrdersInfo()
+    public function getOrdersInfo():array
+    {
+        return $this->orderService->getAllOrdersDetails();
+    }
+
+    public function getOrdersPresentation()
     {
         die($this->orderService->getAllOrdersPresentation());
     }

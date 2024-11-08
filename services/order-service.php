@@ -20,7 +20,7 @@ class OrderService
 
     private Database $database;
 
-    public function __construct(protected QueryBuilder $chainedQueries)
+    public function __construct(protected QueryBuilder $queryBuilder)
     {
         $this->orderList = [];
         $this->database = new Database();
@@ -67,7 +67,7 @@ class OrderService
             $connection = $this->database->connection;
 
             // "INSERT INTO orders(user_id) VALUES(:user_id)"
-            $query = $this->chainedQueries->insert()->tableName("orders")->columns(["user_id"])->getQuery();
+            $query = $this->queryBuilder->insert()->tableName("orders")->columns(["user_id"])->getQuery();
             var_dump($query);
             $stmt = $connection->prepare($query);
             // $stmt = $connection->prepare("INSERT INTO orders(user_id) VALUES(:userId)");
@@ -95,7 +95,7 @@ class OrderService
     {
         try {
             $connection = $this->database->connection;
-            $query = $this->chainedQueries->insert()->tableName("order_items")->columns(["order_id","product_id","quantity"])->getQuery();
+            $query = $this->queryBuilder->insert()->tableName("order_items")->columns(["order_id","product_id","quantity"])->getQuery();
             var_dump($query);
 
             $stmt = $connection->prepare($query);

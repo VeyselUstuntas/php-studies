@@ -5,7 +5,7 @@ class ProductService
 
     private Database $database;
 
-    public function __construct(protected QueryBuilder $chaninedQueries)
+    public function __construct(protected QueryBuilder $queryBuilder)
     {
         $this->database = new Database();
     }
@@ -20,7 +20,7 @@ class ProductService
 
         try {
             $connection = $this->database->connection;
-            $query = $this->chaninedQueries->select()->columns(["*"])->tableName("product")->getQuery();
+            $query = $this->queryBuilder->select()->columns(["*"])->tableName("product")->getQuery();
             var_dump($query);
             $stmt = $connection->prepare($query);
             // $stmt = $connection->prepare("SELECT * FROM product");

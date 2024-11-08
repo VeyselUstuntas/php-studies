@@ -3,7 +3,7 @@ class UserService
 {
     private Database $database;
 
-    public function __construct(protected QueryBuilder $chaninedQueries)
+    public function __construct(protected QueryBuilder $queryBuilder)
     {
         $this->database = new Database();
     }
@@ -13,7 +13,7 @@ class UserService
         try {
             $connection = $this->database->connection;
 
-            $query = $this->chaninedQueries->select()->columns(["*"])->tableName("user")->where(["id"])->getQuery();
+            $query = $this->queryBuilder->select()->columns(["*"])->tableName("user")->where(["id"])->getQuery();
             var_dump($query);
 
             $stmt = $connection->prepare($query);
@@ -44,7 +44,7 @@ class UserService
         $userList = [];
         try {
             $connection = $this->database->connection;
-            $query = $this->chaninedQueries->select()->columns(["*"])->tableName("user")->getQuery();
+            $query = $this->queryBuilder->select()->columns(["*"])->tableName("user")->getQuery();
             var_dump($query);
 
             // $stmt = $connection->prepare("SELECT id, name, surname, email, password FROM user");

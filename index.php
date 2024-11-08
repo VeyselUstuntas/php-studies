@@ -18,8 +18,10 @@ require 'middleware/second-middleware.php';
 require 'middleware/third-middleware.php';
 require 'middleware/core/middleware-stack.php';
 require 'app.php';
+require 'config/query-builder.php';
 
 $diManager = new DIManager();
+
 $router = new Router($diManager);
 $request = RequestParser::parse();
 
@@ -34,7 +36,7 @@ Router::get("fibonacci", [FibonacciNumberController::class, 'getFibonacciNumbers
 
 Router::get("prime-number", [PrimeNumberController::class, 'getPrimeNumbers']);
 
-Router::get("orders", [OrderController::class, 'getOrdersInfo']);
+Router::get("orders", [OrderController::class, 'getOrdersPresentation']);
 
 Router::post("orders", [OrderController::class, 'saveOrder']);
 

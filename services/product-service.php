@@ -5,7 +5,7 @@ class ProductService
 
     private Database $database;
 
-    public function __construct()
+    public function __construct(protected QueryBuilder $chaninedQueries)
     {
         $this->database = new Database();
     }
@@ -20,7 +20,10 @@ class ProductService
 
         try {
             $connection = $this->database->connection;
-            $stmt = $connection->prepare("SELECT * FROM product");
+            $query = $this->chaninedQueries->select()->columns(["*"])->tableName("product")->getQuery();
+            var_dump($query);
+            $stmt = $connection->prepare($query);
+            // $stmt = $connection->prepare("SELECT * FROM product");
             $stmt->execute();
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $productList[] = new Product($row["id"], $row["name"], $row["price"]);

@@ -2,6 +2,7 @@
 require __DIR__ . "/core/middleware.php";
 class FirstMiddleware implements IMiddleware
 {
+
     public function __invoke(callable $next)
     {
         var_dump("first middleware");
@@ -20,11 +21,12 @@ class FirstMiddleware implements IMiddleware
              * @var string $data
              */
             $data = $key . " : " . $value . "\n";
-            $currentDateTime = new DateTime();
 
-            file_put_contents("./log.txt", $data ."\n", FILE_APPEND);
+            file_put_contents("./log.txt", $data . "\n", FILE_APPEND);
         }
-        file_put_contents("./log.txt",$currentDateTime->format('d-m-Y H:i:s')."\n\n", FILE_APPEND);
+        $currentDateTime = new DateTime();
+
+        file_put_contents("./log.txt", $currentDateTime->format('d-m-Y H:i:s') . "\n\n", FILE_APPEND);
 
         return $next();
     }

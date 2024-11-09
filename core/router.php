@@ -13,18 +13,18 @@ class Router
         self::$dIManager = $dIManager;
     }
 
-    public static function get(string $path, $callable, ?array $middlewares = null)
+    public static function get(string $path, array $callable, ?array $middlewares = null)
     {
         self::register($path, $callable, 'GET', $middlewares);
     }
 
-    public static function post(string $path, $callable, ?array $middlewares = null)
+    public static function post(string $path, array $callable, ?array $middlewares = null)
     {
         self::register($path, $callable, 'POST', $middlewares);
     }
 
     // $callable -> ['sınıf', 'metod']
-    public static function register(string $path, $callable, string $method, ?array $middlewares = null)
+    public static function register(string $path, array $callable, string $method, ?array $middlewares = null)
     {
         //bağımlılıkları burda çözümleyecği
         $controller = self::$dIManager->resolve($callable[0]);

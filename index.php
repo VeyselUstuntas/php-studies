@@ -23,7 +23,7 @@ $router = new Router($diManager);
 $request = RequestParser::parse();
 
 
-Router::get("fibonacci", [FibonacciNumberController::class, 'getFibonacciNumbers']);
+Router::get("fibonacci",[FibonacciNumberController::class, 'getFibonacciNumbers']);
 
 Router::get("prime-number", [PrimeNumberController::class, 'getPrimeNumbers']);
 

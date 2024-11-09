@@ -23,7 +23,6 @@ $diManager = new DIManager();
 $router = new Router($diManager);
 $request = RequestParser::parse();
 
-
 Router::get("fibonacci",[FibonacciNumberController::class, 'getFibonacciNumbers']);
 
 Router::get("prime-number", [PrimeNumberController::class, 'getPrimeNumbers']);
@@ -48,10 +47,10 @@ Router::get("products", [ProductController::class, 'getAllProducts']);
 $controller = $diManager->resolve(OrderController::class);
 $reflection = new ReflectionClass($controller);
 $method = $reflection->getMethod("saveOrder");
-
-$attributes = $method->getAttributes(OrderSaveLogger::class);
+$attributes = $method->getAttributes(OrderSaveLogger::class); // ReflectionAttribute saveOrder'a verilen attribute'un meta bilgilerini tutar.
 foreach ($attributes as $attr) {
-    Event::bindEvent("orderSaved",function() use($attr){
+    var_dump($attr);
+    Event::eventListen("orderSaved",function() use($attr){
         $logger = $attr->newInstance();
         var_dump($logger->message);
     });

@@ -2,7 +2,7 @@
 class Event{
     public static $events = array();
 
-    public static function bindEvent($event, Closure $func){
+    public static function eventListen($event, Closure $func){
         self::$events[$event][] = $func;
         /*
             [
@@ -14,7 +14,7 @@ class Event{
     }
 
 
-    public static function triggerEvent($event){
+    public static function eventEmitter($event){
         if(isset(self::$events[$event])){
             foreach(self::$events[$event] as $func){
                 call_user_func($func);

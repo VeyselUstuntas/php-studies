@@ -36,14 +36,15 @@ class OrderController
         }
 
         $orderSaveModel = new OrderSaveModel(['userId' => $user_id, 'items' => $orderItemList]);
-        Event::triggerEvent("orderSaved");
+        Event::eventEmitter("orderSaved");
         $orderJson = JsonUtility::encode([$this->orderService->saveOrder($orderSaveModel)]);
         die($orderJson);
     }
 
     public function testSqlInjection()
     {
-        $user_id = $this->requestData[0]["user_id"] ?? null;
+        $request = RequestParser::parse();
+        $user_id = $request->data[0]["user_id"] ?? null;
 
         $sqlInjectionTest = JsonUtility::encode($this->orderService->sqlInjectionTest($user_id));
         die($sqlInjectionTest);

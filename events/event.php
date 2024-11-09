@@ -17,6 +17,7 @@ class Event{
     public static function eventEmitter($event){
         if(isset(self::$events[$event])){
             foreach(self::$events[$event] as $func){
+                echo "Fonksiyon çalıştırılıyor:\n";
                 call_user_func($func);
             }
         }

@@ -14,7 +14,7 @@ class UserService
             $connection = $this->database->connection;
 
             $query = $this->queryBuilder->select()->columns(["*"])->tableName("user")->where(["id"])->getQuery();
-            var_dump($query);
+            // var_dump($query);
 
             $stmt = $connection->prepare($query);
             // $stmt = $connection->prepare("SELECT * FROM user WHERE id = :id");
@@ -45,7 +45,7 @@ class UserService
         try {
             $connection = $this->database->connection;
             $query = $this->queryBuilder->select()->columns(["*"])->tableName("user")->getQuery();
-            var_dump($query);
+            // var_dump($query);
 
             // $stmt = $connection->prepare("SELECT id, name, surname, email, password FROM user");
             $stmt = $connection->prepare($query);

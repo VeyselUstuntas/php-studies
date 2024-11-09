@@ -40,7 +40,8 @@ class Router
         if (isset($middlewares["after"])) {
             foreach ($middlewares["after"] as $afterMiddleware) {
                 $newRoute->afterMiddlewares[] = new $afterMiddleware();
-            }        }
+            }
+        }
         self::$routes[] = $newRoute;
     }
 
@@ -63,13 +64,13 @@ class Router
          */
         foreach (self::$routes as $route) {
             if ($route->path == $page && $route->method == $request->method) {
-                foreach ($route->beforeMiddlewares as $middleware) {
+                foreach ($route->getBeforeMiddlewares() as $middleware) {
                     $middleware($request);
                 }
 
                 $list = call_user_func($route->callable, $parameter);
 
-                foreach ($route->afterMiddlewares as $middleware) {
+                foreach ($route->getAfterMiddlewares() as $middleware) {
                     $middleware($list);
                 }
                 return;

@@ -21,7 +21,7 @@ class ProductService
         try {
             $connection = $this->database->connection;
             $query = $this->queryBuilder->select()->columns(["*"])->tableName("product")->getQuery();
-            var_dump($query);
+            // var_dump($query);
             $stmt = $connection->prepare($query);
             // $stmt = $connection->prepare("SELECT * FROM product");
             $stmt->execute();

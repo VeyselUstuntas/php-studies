@@ -23,7 +23,7 @@ class DIManager
     {
 
         $instance = $this->findInstance($className);
-        if($instance){
+        if(isset($instance)){
             return $instance;
         }
 

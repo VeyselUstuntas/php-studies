@@ -12,10 +12,11 @@ require 'controller/user-controller.php';
 require 'controller/product-controller.php';
 require 'controller/order-controller.php';
 require 'core/di-manager.php';
-
 require 'middleware/first-middleware.php';
 require 'middleware/second-middleware.php';
 require 'config/query-builder.php';
+require 'events/event.php';
+require 'services/order-save-logger.php';
 
 $diManager = new DIManager();
 
@@ -43,5 +44,17 @@ Router::get("users", [UserController::class, 'getAllUser']);
 Router::get("user", [UserController::class, 'getUser']);
 
 Router::get("products", [ProductController::class, 'getAllProducts']);
+
+$controller = $diManager->resolve(OrderController::class);
+$reflection = new ReflectionClass($controller);
+$method = $reflection->getMethod("saveOrder");
+
+$attributes = $method->getAttributes(OrderSaveLogger::class);
+foreach ($attributes as $attr) {
+    Event::bindEvent("orderSaved",function() use($attr){
+        $logger = $attr->newInstance();
+        var_dump($logger->message);
+    });
+}
 
 $router->route($request);

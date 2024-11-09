@@ -68,7 +68,6 @@ class OrderService
 
             // "INSERT INTO orders(user_id) VALUES(:user_id)"
             $query = $this->queryBuilder->insert()->tableName("orders")->columns(["user_id"])->getQuery();
-            var_dump($query);
             $stmt = $connection->prepare($query);
             // $stmt = $connection->prepare("INSERT INTO orders(user_id) VALUES(:userId)");
             $stmt->execute(['user_id' => $userId]);
@@ -96,8 +95,6 @@ class OrderService
         try {
             $connection = $this->database->connection;
             $query = $this->queryBuilder->insert()->tableName("order_items")->columns(["order_id","product_id","quantity"])->getQuery();
-            var_dump($query);
-
             $stmt = $connection->prepare($query);
             // $stmt = $connection->prepare("INSERT INTO order_items(order_id,product_id, quantity) VALUES(:order_id, :product_id,:quantity)");   
 

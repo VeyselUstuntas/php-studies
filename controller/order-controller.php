@@ -19,6 +19,7 @@ class OrderController
         die($this->orderService->getAllOrdersPresentation());
     }
 
+    #[OrderSaveLogger]
     public function saveOrder()
     {
         $baseRequest = RequestParser::parse();
@@ -35,7 +36,7 @@ class OrderController
         }
 
         $orderSaveModel = new OrderSaveModel(['userId' => $user_id, 'items' => $orderItemList]);
-
+        Event::triggerEvent("orderSaved");
         $orderJson = JsonUtility::encode([$this->orderService->saveOrder($orderSaveModel)]);
         die($orderJson);
     }

@@ -1,8 +1,8 @@
 <?php
-namespace Core;
+namespace App\Core;
 
-use Core\Model\BaseRequest;
-use Core\Model\Route;
+use App\Core\Model\BaseRequest;
+use App\Core\Model\Route;
 
 class Router
 {

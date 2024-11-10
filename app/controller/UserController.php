@@ -1,8 +1,8 @@
 <?php
-namespace Controller;
+namespace App\Controller;
 
-use Services\UserService;
-use Utilities\JsonUtility;
+use App\Services\UserService;
+use App\Utilities\JsonUtility;
 
 class UserController
 {

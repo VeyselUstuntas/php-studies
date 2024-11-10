@@ -1,13 +1,13 @@
 <?php
-namespace Controller;
+namespace App\Controller;
 
-use Core\RequestParser;
-use Events\Event;
-use Model\OrderItemSaveModel;
-use Model\OrderSaveModel;
-use Services\OrderSaveLogger;
-use Services\OrderService;
-use Utilities\JsonUtility;
+use App\Core\RequestParser;
+use App\Events\Event;
+use App\Model\OrderItemSaveModel;
+use App\Model\OrderSaveModel;
+use App\Services\OrderSaveLogger;
+use App\Services\OrderService;
+use App\Utilities\JsonUtility;
 
 class OrderController
 {

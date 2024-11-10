@@ -1,5 +1,5 @@
 <?php
-namespace Services;
+namespace App\Services;
 
 class PrimeNumberCalculator extends AbstractCalculator
 {

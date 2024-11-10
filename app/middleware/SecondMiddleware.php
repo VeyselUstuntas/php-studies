@@ -1,6 +1,7 @@
 <?php
-namespace Middleware;
-use Utilities\JsonUtility;
+namespace App\Middleware;
+
+use App\Utilities\JsonUtility;
 
 class SecondMiddleware
 {

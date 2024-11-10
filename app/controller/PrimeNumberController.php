@@ -1,7 +1,7 @@
 <?php
-namespace Controller;
+namespace App\Controller;
 
-use Services\PrimeNumberCalculator;
+use App\Services\PrimeNumberCalculator;
 
 class PrimeNumberController
 {

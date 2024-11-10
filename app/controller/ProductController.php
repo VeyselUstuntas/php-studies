@@ -1,8 +1,8 @@
 <?php
-namespace Controller;
+namespace App\Controller;
 
-use Services\ProductService;
-use Utilities\JsonUtility;
+use App\Services\ProductService;
+use App\Utilities\JsonUtility;
 
 class ProductController
 {

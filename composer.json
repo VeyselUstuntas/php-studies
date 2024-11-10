@@ -1,15 +1,7 @@
 {
     "autoload": {
         "psr-4": {
-            "Config\\": "app/config/",
-            "Controller\\": "app/controller/",
-            "Core\\": "app/core/",
-            "Core\\Model\\": "app/core/model/",
-            "Events\\": "app/events/",
-            "Middleware\\": "app/middleware/",
-            "Model\\": "app/model/",
-            "Utilities\\": "app/utilities/",
-            "Services\\":"app/services/"
+            "App\\":"App/"
         }
     }
 }

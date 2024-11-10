@@ -1,7 +1,7 @@
 <?php
-namespace Middleware;
+namespace App\Middleware;
 
-use Core\Model\BaseRequest;
+use App\Core\Model\BaseRequest;
 use DateTime;
 
 class FirstMiddleware

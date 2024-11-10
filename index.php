@@ -1,17 +1,17 @@
 <?php
 
-use Controller\FibonacciNumberController;
-use Controller\OrderController;
-use Controller\PrimeNumberController;
-use Controller\ProductController;
-use Controller\UserController;
-use Core\DIManager;
-use Core\RequestParser;
-use Core\Router;
-use Events\Event;
-use Middleware\FirstMiddleware;
-use Middleware\SecondMiddleware;
-use Services\OrderSaveLogger;
+use App\Controller\FibonacciNumberController;
+use App\Controller\OrderController;
+use App\Controller\PrimeNumberController;
+use App\Controller\ProductController;
+use App\Controller\UserController;
+use App\Core\DIManager;
+use App\Core\RequestParser;
+use App\Core\Router;
+use App\Events\Event;
+use App\Middleware\FirstMiddleware;
+use App\Middleware\SecondMiddleware;
+use App\Services\OrderSaveLogger;
 
 require_once __DIR__ . '/vendor/autoload.php';
 $diManager = new DIManager();

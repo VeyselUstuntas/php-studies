@@ -1,10 +1,10 @@
 <?php
-namespace Services;
+namespace App\Services;
 
-use Config\Database;
-use Config\QueryBuilder;
+use App\Config\Database;
+use App\Config\QueryBuilder;
+use App\Model\Product;
 use Exception;
-use Model\Product;
 
 class ProductService
 {

@@ -1,7 +1,7 @@
 <?php
-namespace Core;
+namespace App\Core;
 
-use Core\Model\BaseRequest;
+use App\Core\Model\BaseRequest;
 
 class RequestParser {
     public static function parse(): BaseRequest {

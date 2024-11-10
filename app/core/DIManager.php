@@ -1,5 +1,5 @@
 <?php
-namespace Core;
+namespace App\Core;
 use ReflectionClass;
 
 class DIManager

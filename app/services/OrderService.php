@@ -1,15 +1,16 @@
 <?php
-namespace Services;
-use Config\Database;
-use Config\QueryBuilder;
+namespace App\Services;
+
+use App\Config\Database;
+use App\Config\QueryBuilder;
+use App\Model\Order;
+use App\Model\OrderDetails;
+use App\Model\OrderItem;
+use App\Model\OrderItemSaveModel;
+use App\Model\OrderSaveModel;
+use App\Utilities\JsonUtility;
 use Exception;
-use Model\Order;
-use Model\OrderDetails;
-use Model\OrderItem;
-use Model\OrderItemSaveModel;
-use Model\OrderSaveModel;
 use PDO;
-use Utilities\JsonUtility;
 
 class OrderService
 {

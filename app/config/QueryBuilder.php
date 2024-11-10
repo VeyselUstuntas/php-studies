@@ -1,5 +1,5 @@
 <?php
-namespace Config;
+namespace App\Config;
 
 class QueryBuilder
 {

@@ -1,7 +1,7 @@
 <?php
-namespace Controller;
+namespace App\Controller;
 
-use Services\FibonacciNumberCalculator;
+use App\Services\FibonacciNumberCalculator;
 
 class FibonacciNumberController
 {

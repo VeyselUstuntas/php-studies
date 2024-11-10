@@ -1,5 +1,5 @@
 <?php
-namespace Services;
+namespace App\Services;
 use Attribute;
 
 #[Attribute]

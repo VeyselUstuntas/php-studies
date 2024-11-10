@@ -1,6 +1,7 @@
+
 # PHP Studies
 
-Bu proje, çeşitli PHP uygulamalarını içeren bir çalışma alanıdır. Nesne yönelimli programlama, algoritmalar, özel bağımlılık enjeksiyonu (DI), middleware ve routing gibi PHP'nin temel ve ileri seviye konularını keşfetmek amacıyla geliştirilmiştir.
+Bu proje, PHP ile çeşitli uygulama örnekleri geliştirmek ve PHP'nin temel ve ileri düzey konularını keşfetmek amacıyla tasarlanmıştır. Nesne Yönelimli Programlama, algoritmalar, bağımlılık enjeksiyonu (DI), middleware, routing, composer, reflection class ve event gibi konulara odaklanılmıştır.
 
 ## İçindekiler
 1. [Genel Bakış](#genel-bakış)
@@ -13,7 +14,7 @@ Bu proje, çeşitli PHP uygulamalarını içeren bir çalışma alanıdır. Nesn
 8. [Lisans](#lisans)
 
 ## Genel Bakış
-Bu proje, PHP ile gerçekleştirilebilecek farklı yapıların ve tasarım desenlerinin bir demosudur. Router, middleware, DI gibi bileşenlerle PHP uygulamalarında en iyi uygulamalar ve verimli yapılar gösterilmektedir.
+Bu proje, PHP ile çeşitli yapıların ve tasarım desenlerinin bir demosudur. Router, middleware, DI gibi bileşenler kullanarak PHP uygulamalarında en iyi uygulamalar ve verimli yapılar gösterilmektedir.
 
 ## Kullanılan Teknolojiler
 - **PHP 8**: Temel geliştirme dili.
@@ -22,6 +23,7 @@ Bu proje, PHP ile gerçekleştirilebilecek farklı yapıların ve tasarım desen
 - **Middleware Stack**: İstek günlüğe alma, veri işleme ve JSON encode işlemlerini gerçekleştiren middleware yapısı.
 - **Routing Sistemi**: Route tanımları ve middleware işleyişi ile GET/POST desteği.
 - **PHP Dahili Sunucu**: Yerel geliştirme/test için.
+- **Composer**: Projeye gerekli bağımlılıkları yüklemek için.
 
 ## Proje Yapısı
 Proje dosya yapısı şu şekildedir:
@@ -40,7 +42,11 @@ Proje dosya yapısı şu şekildedir:
     ```bash
     cd php-studies
     ```
-3. PHP dahili sunucuyu başlatın:
+3. Composer ile bağımlılıkları yükleyin:
+    ```bash
+    composer install
+    ```
+4. PHP dahili sunucuyu başlatın:
     ```bash
     php -S localhost:8000 -t public
     ```
@@ -61,3 +67,9 @@ Sipariş işleme rotasını test etmek için:
 ```bash
 http://localhost:8000/orders
 ```
+
+## Katkıda Bulunma
+Bu projeye katkıda bulunmak için pull request gönderebilirsiniz.
+
+## Lisans
+MIT Lisansı.

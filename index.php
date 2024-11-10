@@ -1,22 +1,19 @@
 <?php
-require 'core/router.php';
-require 'core/model/route.php';
-require 'controller/fibonacci-number-controller.php';
-require 'controller/prime-number-controller.php';
-require 'controller/home-controller.php';
-require 'services/fibonacci-number-calculator.php';
-require 'services/prime-number-calculator.php';
-require 'core/request-parser.php';
-require 'config/database.php';
-require 'controller/user-controller.php';
-require 'controller/product-controller.php';
-require 'controller/order-controller.php';
-require 'core/di-manager.php';
-require 'middleware/first-middleware.php';
-require 'middleware/second-middleware.php';
-require 'config/query-builder.php';
-require 'events/event.php';
-require 'services/order-save-logger.php';
+
+use Controller\FibonacciNumberController;
+use Controller\OrderController;
+use Controller\PrimeNumberController;
+use Controller\ProductController;
+use Controller\UserController;
+use Core\DIManager;
+use Core\RequestParser;
+use Core\Router;
+use Events\Event;
+use Middleware\FirstMiddleware;
+use Middleware\SecondMiddleware;
+use Services\OrderSaveLogger;
+
+require_once __DIR__ . '/vendor/autoload.php';
 
 $diManager = new DIManager();
 

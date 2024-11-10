@@ -14,7 +14,6 @@ use Middleware\SecondMiddleware;
 use Services\OrderSaveLogger;
 
 require_once __DIR__ . '/vendor/autoload.php';
-
 $diManager = new DIManager();
 
 $router = new Router($diManager);
